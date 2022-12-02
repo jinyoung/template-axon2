@@ -1,20 +1,23 @@
+
 forEach: View
 representativeFor: View
-fileName: GeneratedJPA{{namePascalCase}}QueryHandler.java
+fileName: JPA{{namePascalCase}}QueryHandler.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
-except_: {{isNotQueryForAggregate}}
+except: {{isNotQueryForAggregate}}
 ---
 package {{options.package}}.query;
 
 
 import {{options.package}}.event.*;
-
+import {{options.package}}.aggregate.{{aggregate.namePascalCase}}Aggregate;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeanUtils;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,16 +33,16 @@ public class JPA{{namePascalCase}}QueryHandler {
 
 //<<< EDA / CQRS
     @Autowired
-    private {{../aggregate.namePascalCase}}Repository repository;
+    private {{aggregate.namePascalCase}}ReadModelRepository repository;
 
     @QueryHandler
-    public List<{{namePascalCase}}> handle({{namePascalCase}}Query query) {
-        return {{nameCamelCase}}Repository.findAll();
+    public List<{{aggregate.namePascalCase}}ReadModel> handle({{aggregate.namePascalCase}}Query query) {
+        return repository.findAll();
     }
 
     @QueryHandler
-    public Optional<{{namePascalCase}}> handle({{namePascalCase}}SingleQuery query) {
-        return {{nameCamelCase}}Repository.findById(query.get{{contexts.keyField}}());
+    public Optional<{{aggregate.namePascalCase}}ReadModel> handle({{aggregate.namePascalCase}}SingleQuery query) {
+        return repository.findById(query.get{{contexts.keyField}}());
     }
 
 {{#aggregate.events}}
@@ -89,19 +92,10 @@ this.contexts.keyField = "Long";
 var me = this;
 this.aggregate.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) me.contexts.keyField=fd.namePascalCase});
 this.aggregate.events.forEach(event => {
-
-    event.incomingCommandRefs = [{
-        value: {
-            restMethod: "POST"
-        }
-    }]
-
-    
     if(event.incomingCommandRefs)
         event.incomingCommandRefs.forEach(commandRef => {
-            
             if(commandRef.value.restMethod == "POST"){
-                event.isCreateEvent = true;
+                this.contexts.createEvent = event;
             }
         })
 });

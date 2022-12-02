@@ -95,7 +95,7 @@ public class {{ namePascalCase }}Controller {
   EventStore eventStore;
 
   @GetMapping(value="/{{ namePlural }}/{id}/events")
-  public ResponseEntity getEvents(@PathVariable("id") {{aggregateRoot.keyFieldDescriptor.className}} id){
+  public ResponseEntity getEvents(@PathVariable("id") String id){
       ArrayList resources = new ArrayList<{{namePascalCase}}Aggregate>(); 
       eventStore.readEvents(id).asStream().forEach(resources::add);
 

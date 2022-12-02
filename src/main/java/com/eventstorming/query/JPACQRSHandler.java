@@ -1,6 +1,6 @@
 forEach: View
 representativeFor: View
-fileName: JPA{{namePascalCase}}QueryHandler.java
+fileName: GeneratedJPA{{namePascalCase}}QueryHandler.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
 except_: {{isNotQueryForAggregate}}

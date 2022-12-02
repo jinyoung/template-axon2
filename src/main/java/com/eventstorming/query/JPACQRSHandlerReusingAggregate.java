@@ -3,7 +3,7 @@ representativeFor: View
 fileName: JPA{{namePascalCase}}QueryHandler.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
-except_: {{isNotQueryForAggregate}}
+except: {{isNotQueryForAggregate}}
 ---
 package {{options.package}}.query;
 
@@ -89,19 +89,10 @@ this.contexts.keyField = "Long";
 var me = this;
 this.aggregate.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) me.contexts.keyField=fd.namePascalCase});
 this.aggregate.events.forEach(event => {
-
-    event.incomingCommandRefs = [{
-        value: {
-            restMethod: "POST"
-        }
-    }]
-
-    
     if(event.incomingCommandRefs)
         event.incomingCommandRefs.forEach(commandRef => {
-            
             if(commandRef.value.restMethod == "POST"){
-                event.isCreateEvent = true;
+                this.contexts.createEvent = event;
             }
         })
 });

@@ -4,7 +4,7 @@ representativeFor: View
 fileName: JPA{{namePascalCase}}QueryForAggregateHandler.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
-except: {{isNotQueryForAggregate}}
+_except: {{isNotQueryForAggregate}}
 ---
 package {{options.package}}.query;
 

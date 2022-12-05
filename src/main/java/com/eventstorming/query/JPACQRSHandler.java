@@ -26,7 +26,7 @@ import java.io.IOException;
 
 @Service
 @ProcessingGroup("{{nameCamelCase}}")
-public class JPA{{namePascalCase}}QueryHandler {
+public class {{namePascalCase}}CQRSHandler {
 
 //<<< DDD / CQRS
     @Autowired

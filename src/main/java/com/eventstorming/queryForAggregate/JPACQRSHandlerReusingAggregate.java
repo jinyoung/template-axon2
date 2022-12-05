@@ -26,19 +26,19 @@ import java.io.IOException;
 
 @Service
 @ProcessingGroup("{{nameCamelCase}}")
-public class JPA{{namePascalCase}}QueryHandler {
+public class {{namePascalCase}}CQRSHandler {
 
 //<<< EDA / CQRS
     @Autowired
     private {{aggregate.namePascalCase}}ReadModelRepository repository;
 
     @QueryHandler
-    public List<{{aggregate.namePascalCase}}> handle({{namePascalCase}}Query query) {
+    public List<{{aggregate.namePascalCase}}ReadModel> handle({{namePascalCase}}Query query) {
         return repository.findAll();
     }
 
     @QueryHandler
-    public Optional<{{aggregate.namePascalCase}}> handle({{namePascalCase}}SingleQuery query) {
+    public Optional<{{aggregate.namePascalCase}}ReadModel> handle({{namePascalCase}}SingleQuery query) {
         return repository.findById(query.get{{contexts.keyField}}());
     }
 

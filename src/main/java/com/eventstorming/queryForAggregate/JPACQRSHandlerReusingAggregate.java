@@ -87,18 +87,22 @@ public class {{namePascalCase}}CQRSHandler {
 
 this.aggregate = this.boundedContext.aggregates[0];
 this.contexts.isNotQueryForAggregate = (this.dataProjection != "query-for-aggregate")
-this.contexts.keyField = "Long";
-var me = this;
-this.aggregate.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) me.contexts.keyField=fd.namePascalCase});
-this.aggregate.events.forEach(event => {
-    if(event.incomingCommandRefs)
-        event.incomingCommandRefs.forEach(commandRef => {
-            if(commandRef.value.restRepositoryInfo.method == "POST"){
-    
-                event.isCreateEvent = true;
-            }
-        })
-});
 
+if(!isNotQueryForAggregate){
+
+    this.contexts.keyField = "Long";
+    var me = this;
+    this.aggregate.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) me.contexts.keyField=fd.namePascalCase});
+    this.aggregate.events.forEach(event => {
+        if(event.incomingCommandRefs)
+            event.incomingCommandRefs.forEach(commandRef => {
+                if(commandRef.value.restRepositoryInfo.method == "POST"){
+        
+                    event.isCreateEvent = true;
+                }
+            })
+    });
+
+}
 
 </function>

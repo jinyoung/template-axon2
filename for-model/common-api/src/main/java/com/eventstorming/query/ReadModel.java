@@ -1,10 +1,8 @@
-
-
-
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/query
+path: common-api/{{{options.packagePath}}}/query
+except: {{contexts.isNotCQRS}}
 ---
 package {{options.package}}.query;
 
@@ -35,6 +33,8 @@ public class {{namePascalCase}} {
 }
 
 <function>
+this.contexts.isNotCQRS = this.dataProjection!="cqrs"//(this.dataProjection == "QUERY-FOR-AGGREGATE")
+
 window.$HandleBars.registerHelper('checkBigDecimal', function (fieldDescriptors) {
     for(var i = 0; i < fieldDescriptors.length; i ++ ){
         if(fieldDescriptors[i] && fieldDescriptors[i].className.includes('BigDecimal')){

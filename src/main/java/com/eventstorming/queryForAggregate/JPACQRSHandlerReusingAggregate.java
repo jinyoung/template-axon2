@@ -1,4 +1,3 @@
-
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}CQRSHandler.java
@@ -84,7 +83,6 @@ public class JPA{{namePascalCase}}QueryHandler {
 <function>
 
 this.aggregate = this.boundedContext.aggregates[0];
-console.log(this)
 this.contexts.isNotQueryForAggregate = (this.dataProjection != "query-for-aggregate")
 this.contexts.keyField = "Long";
 var me = this;
@@ -92,8 +90,9 @@ this.aggregate.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) me.con
 this.aggregate.events.forEach(event => {
     if(event.incomingCommandRefs)
         event.incomingCommandRefs.forEach(commandRef => {
-            if(commandRef.value.restMethod == "POST"){
-                this.contexts.createEvent = event;
+            if(commandRef.value.restRepositoryInfo.method == "POST"){
+    
+                event.isCreateEvent = true;
             }
         })
 });

@@ -1,8 +1,8 @@
-
-
 forEach: View
 fileName: {{namePascalCase}}QueryController.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/api
+_except: {{contexts.isNotCQRS}}
+
 ---
 package {{options.package}}.api;
 
@@ -27,6 +27,8 @@ import {{options.package}}.query.*;
 public class {{namePascalCase}}QueryController {
 
   private final QueryGateway queryGateway;
+
+  {{#contexts.target}}
 
   public {{namePascalCase}}QueryController(QueryGateway queryGateway) {
       this.queryGateway = queryGateway;
@@ -66,17 +68,27 @@ public class {{namePascalCase}}QueryController {
 
   }
 
-
+  {{/contexts.target}}
 
 }
 
 <function>
+this.contexts.isNotCQRS = this.dataProjection!="cqrs"
+
 this.contexts.keyField = "Long";
 this.contexts.keyFieldClass = "String";
 var me = this;
-this.fieldDescriptors.forEach(fd => {if(fd.isKey) {
-  me.contexts.keyField=fd.namePascalCase;
-  me.contexts.keyFieldClass=fd.className;
+
+if(this.dataProjection == "query-for-aggregate"){
+  this.contexts.target = this.boundedContext.aggregates[0].aggregateRoot;
+}else{
+  this.contexts.target = this;
 }
+
+this.contexts.target.fieldDescriptors.forEach(fd => {if(fd.isKey) {
+    me.contexts.keyField=fd.namePascalCase;
+    me.contexts.keyFieldClass=fd.className;
+  }
 });
+
 </function>

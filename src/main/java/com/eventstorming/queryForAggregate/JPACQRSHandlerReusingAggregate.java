@@ -30,7 +30,7 @@ public class JPA{{namePascalCase}}QueryHandler {
 
 //<<< EDA / CQRS
     @Autowired
-    private {{aggregate.namePascalCase}}Repository repository;
+    private {{aggregate.namePascalCase}}ReadModelRepository repository;
 
     @QueryHandler
     public List<{{aggregate.namePascalCase}}> handle({{namePascalCase}}Query query) {

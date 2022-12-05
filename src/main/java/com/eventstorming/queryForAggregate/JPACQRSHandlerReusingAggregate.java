@@ -62,7 +62,7 @@ public class {{namePascalCase}}CQRSHandler {
 
     @EventHandler
     public void when{{namePascalCase}}_then_UPDATE ({{namePascalCase}}Event event) throws Exception{
-        repository.findById(event.get{{contexts.keyField}}())
+        repository.findById(event.get{{../contexts.keyField}}())
             .ifPresent(entity -> {
 
                 {{../aggregate.namePascalCase}}Aggregate aggregate = new {{../aggregate.namePascalCase}}Aggregate();
@@ -96,7 +96,6 @@ if(!this.contexts.isNotQueryForAggregate){
         if(event.incomingCommandRefs)
             event.incomingCommandRefs.forEach(commandRef => {
                 if(commandRef.value && commandRef.value.isRestRepository && commandRef.value.restRepositoryInfo.method == "POST"){
-        
                     event.isCreateEvent = true;
                 }
             })

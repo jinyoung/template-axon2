@@ -1,3 +1,4 @@
+
 forEach: ValueObject
 fileName: {{namePascalCase}}.java
 path: common-api/{{{options.packagePath}}}/query
@@ -8,7 +9,7 @@ package {{options.package}}.query;
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;
 import java.util.List;
-import lombok.Data;
+import lombok.*;
 import java.util.Date;
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 

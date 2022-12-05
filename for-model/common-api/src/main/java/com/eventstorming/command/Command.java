@@ -1,7 +1,7 @@
 
 forEach: Command
 fileName: {{namePascalCase}}Command.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/command
+path: common-api/{{{options.packagePath}}}/command
 ---
 package {{options.package}}.command;
 

@@ -2,7 +2,7 @@
 
 forEach: Event
 fileName: {{namePascalCase}}Event.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/event
+path: common-api/{{{options.packagePath}}}/event
 ---
 package {{options.package}}.event;
 

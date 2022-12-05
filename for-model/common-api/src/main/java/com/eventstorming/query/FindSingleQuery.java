@@ -4,7 +4,7 @@
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}SingleQuery.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/query
+path: common-api/{{boundedContext.name}}/{{{options.packagePath}}}/query
 ---
 package {{options.package}}.query;
 

@@ -1,6 +1,3 @@
-
-
-
 forEach: View
 representativeFor: View
 fileName: {{aggregate.namePascalCase}}ReadModel.java
@@ -34,7 +31,7 @@ public class {{namePascalCase}}ReadModel {{#checkExtends aggregateRoot.entities.
     {{/isKey}}{{/isVO}}
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}{{/isList}}{{/if}}
-    {{#checkRelations ../aggregateRoot.entities.relations className isVO referenceClass}}{{/checkRelations}}
+    {{#checkRelations ../aggregateRoot.entities.relations className isVO referenceClass ../aggregateRoot.entities}}{{/checkRelations}}
     {{#checkAttribute ../aggregateRoot.entities.relations ../name className isVO}}{{/checkAttribute}}
     private {{{className}}} {{nameCamelCase}};
     {{/aggregateRoot.fieldDescriptors}}
@@ -142,7 +139,7 @@ window.$HandleBars.registerHelper('isPrimitive', function (className) {
     }
 });
 
-window.$HandleBars.registerHelper('checkRelations', function (relations, className, isVO, referenceClass) {
+window.$HandleBars.registerHelper('checkRelations', function (relations, className, isVO, referenceClass, entities) {
     try {
         if(typeof relations === "undefined") {
             return 
@@ -155,6 +152,14 @@ window.$HandleBars.registerHelper('checkRelations', function (relations, classNa
                 }
             } else {
                 // ValueObject
+                if(entities.elements)
+                    Object.keys(entities.elements).forEach(key => {
+                        var entity = entities.elements[key]
+                        if("List<" + entity.namePascalCase + ">"  == className){
+                            isVO = entity.isVO;
+                        }
+                    });
+
                 if(isVO) {
                     if(className.includes("List")) {
                         return "@ElementCollection"

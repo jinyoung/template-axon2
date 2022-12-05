@@ -1,3 +1,4 @@
+
 forEach: View
 representativeFor: View
 fileName: JPA{{namePascalCase}}QueryHandler.java
@@ -83,8 +84,8 @@ public class JPA{{namePascalCase}}QueryHandler {
 <function>
 
 this.aggregate = this.boundedContext.aggregates[0];
-
-this.contexts.isNotQueryForAggregate = (this.aggregate == null)
+//alert(this.dataProjection)
+this.contexts.isNotQueryForAggregate = this.dataProjection=="cqrs"//(this.dataProjection == "QUERY-FOR-AGGREGATE")
 this.contexts.keyField = "Long";
 var me = this;
 this.aggregate.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) me.contexts.keyField=fd.namePascalCase});

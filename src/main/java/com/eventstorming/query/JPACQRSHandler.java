@@ -1,23 +1,20 @@
-
 forEach: View
 representativeFor: View
 fileName: JPA{{namePascalCase}}QueryHandler.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
-except: {{isNotQueryForAggregate}}
+except: {{contexts.isNotCQRS}}
 ---
 package {{options.package}}.query;
 
 
 import {{options.package}}.event.*;
-import {{options.package}}.aggregate.{{aggregate.namePascalCase}}Aggregate;
+
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.BeanUtils;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,74 +28,138 @@ import java.io.IOException;
 @ProcessingGroup("{{nameCamelCase}}")
 public class JPA{{namePascalCase}}QueryHandler {
 
-//<<< EDA / CQRS
+//<<< DDD / CQRS
     @Autowired
-    private {{aggregate.namePascalCase}}ReadModelRepository repository;
+    private {{namePascalCase}}Repository {{nameCamelCase}}Repository;
 
     @QueryHandler
-    public List<{{aggregate.namePascalCase}}ReadModel> handle({{aggregate.namePascalCase}}Query query) {
-        return repository.findAll();
+    public List<{{namePascalCase}}> handle({{namePascalCase}}Query query) {
+        return {{nameCamelCase}}Repository.findAll();
     }
 
-    @QueryHandler
-    public Optional<{{aggregate.namePascalCase}}ReadModel> handle({{aggregate.namePascalCase}}SingleQuery query) {
-        return repository.findById(query.get{{contexts.keyField}}());
-    }
-
-{{#aggregate.events}}
-    {{#if isCreateEvent}}
+    {{#createRules}}
     @EventHandler
-    public void when{{namePascalCase}}_then_CREATE ({{namePascalCase}}Event event) throws Exception{
-        {{../aggregate.namePascalCase}}ReadModel entity = new {{../aggregate.namePascalCase}}ReadModel();
-        {{../aggregate.namePascalCase}}Aggregate aggregate = new {{../aggregate.namePascalCase}}Aggregate();
-        aggregate.on(event);
-
-        BeanUtils.copyProperties(aggregate, entity);
-        
-        repository.save(entity);
-
-    }
+    public void when{{when.namePascalCase}}_then_{{operation}}_{{_index}} ({{when.namePascalCase}}Event {{when.nameCamelCase}}) throws Exception{
+            // view 객체 생성
+            {{../namePascalCase}} {{../nameCamelCase}} = new {{../namePascalCase}}();
+            // view 객체에 이벤트의 Value 를 set 함
+        {{#fieldMapping}}
+        {{#if (isOperator ./operator )}}
+            {{../../nameCamelCase}}.set{{viewField.namePascalCase}}({{#typeCasting viewField ../when.nameCamelCase eventField}}{{/typeCasting}});
         {{else}}
-
-    @EventHandler
-    public void when{{namePascalCase}}_then_UPDATE ({{namePascalCase}}Event event) throws Exception{
-        repository.findById(event.get{{contexts.keyField}}())
-            .ifPresent(entity -> {
-
-                {{../aggregate.namePascalCase}}Aggregate aggregate = new {{../aggregate.namePascalCase}}Aggregate();
-       
-                BeanUtils.copyProperties(entity, aggregate);
-                aggregate.on(event);
-                BeanUtils.copyProperties(aggregate, entity);
-
-                repository.save(entity);
-
-            });
-
+            {{../../nameCamelCase}}.set{{viewField.namePascalCase}}({{../../nameCamelCase}}.get{{viewField.namePascalCase}}() {{{replaceOperator ./operator }}} {{#typeCasting viewField ../when.nameCamelCase eventField}}{{/typeCasting}});
+        {{/if}}
+        {{/fieldMapping}}
+            // view 레파지 토리에 save
+            {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
     }
-    {{/if}}
-{{/aggregate.events}}
+    {{/createRules}}
 
-//>>> EDA / CQRS
+
+    {{#updateRules}}
+    @EventHandler
+    public void when{{when.namePascalCase}}_then_{{operation}}_{{_index}}( {{when.namePascalCase}}Event {{when.nameCamelCase}}) throws Exception{
+        // view 객체 조회
+        {{#where}}
+        {{#viewField.isKey}}
+        Optional<{{../../namePascalCase}}> {{../../nameCamelCase}}Optional = {{../../nameCamelCase}}Repository.findBy{{viewField.namePascalCase}}({{#typeCasting viewField ../when.nameCamelCase eventField}}{{/typeCasting}});
+
+        if( {{../../nameCamelCase}}Optional.isPresent()) {
+                {{../../namePascalCase}} {{../../nameCamelCase}} = {{../../nameCamelCase}}Optional.get();
+        // view 객체에 이벤트의 eventDirectValue 를 set 함
+        {{#../fieldMapping}}
+        {{#if (isOperator ./operator )}}
+            {{../../../nameCamelCase}}.set{{viewField.namePascalCase}}({{#typeCasting viewField ../../when.nameCamelCase eventField}}{{/typeCasting}});    
+        {{else}}
+            {{../../../nameCamelCase}}.set{{viewField.namePascalCase}}({{../../../nameCamelCase}}.get{{viewField.namePascalCase}}() {{{replaceOperator ./operator }}} {{#typeCasting viewField ../../when.nameCamelCase eventField}}{{/typeCasting}});
+        {{/if}}
+        {{/../fieldMapping}}
+            // view 레파지 토리에 save
+                {{../../nameCamelCase}}Repository.save({{../../nameCamelCase}});
+            }
+        {{/viewField.isKey}}
+
+        {{^viewField.isKey}}
+            List<{{../../namePascalCase}}> {{../../nameCamelCase}}List = {{../../nameCamelCase}}Repository.findBy{{viewField.namePascalCase}}({{#typeCasting viewField ../when.nameCamelCase eventField}}{{/typeCasting}});
+            for({{../../namePascalCase}} {{../../nameCamelCase}} : {{../../nameCamelCase}}List){
+                // view 객체에 이벤트의 eventDirectValue 를 set 함
+            {{# ../fieldMapping}}
+            {{#if (isOperator ./operator )}}
+                {{../../../nameCamelCase}}.set{{viewField.namePascalCase}}({{#typeCasting viewField ../../when.nameCamelCase eventField}}{{/typeCasting}});
+            {{else}}
+                {{../../../nameCamelCase}}.set{{viewField.namePascalCase}}({{../../../nameCamelCase}}.get{{viewField.namePascalCase}}() {{{replaceOperator ./operator }}} {{#typeCasting viewField ../../when.nameCamelCase eventField}}{{/typeCasting}});
+            {{/if}}
+            {{/ ../fieldMapping}}
+            // view 레파지 토리에 save
+            {{../../nameCamelCase}}Repository.save({{../../nameCamelCase}});
+            }
+        {{/viewField.isKey}}
+        {{/where}}
+    }
+    {{/updateRules}}
+
+    {{#deleteRules}}
+    @EventHandler
+    public void when{{when.namePascalCase}}_then_{{operation}}_{{_index}}({{when.namePascalCase}}Event {{when.nameCamelCase}}) {
+    {{#where}}
+        // view 레파지 토리에 삭제 쿼리
+    {{#viewField.isKey}}
+        {{../../nameCamelCase}}Repository.deleteById({{#typeCasting viewField ../when.nameCamelCase eventField}}{{/typeCasting}});
+    {{/viewField.isKey}}
+    {{^viewField.isKey}}
+        {{../../nameCamelCase}}Repository.deleteBy{{viewField.namePascalCase}}({{#typeCasting viewField ../when.nameCamelCase eventField}}{{/typeCasting}});
+    {{/viewField.isKey}}
+    {{/where}}
+    }
+    {{/deleteRules}}
+
+//>>> DDD / CQRS
 }
 
 
 <function>
+this.contexts.isNotCQRS = this.dataProjection!="cqrs"//(this.dataProjection == "QUERY-FOR-AGGREGATE")
 
-this.aggregate = this.boundedContext.aggregates[0];
-
-this.contexts.isNotQueryForAggregate = (this.aggregate == null)
-this.contexts.keyField = "Long";
-var me = this;
-this.aggregate.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) me.contexts.keyField=fd.namePascalCase});
-this.aggregate.events.forEach(event => {
-    if(event.incomingCommandRefs)
-        event.incomingCommandRefs.forEach(commandRef => {
-            if(commandRef.value.restMethod == "POST"){
-                this.contexts.createEvent = event;
-            }
-        })
+window.$HandleBars.registerHelper('isOperator', function (value) {
+        return value == '=';
+        });
+window.$HandleBars.registerHelper('replaceOperator', function (value) {
+        value = value.replace('=','')
+        return new window.$HandleBars.SafeString(value);
 });
 
+window.$HandleBars.registerHelper('typeCasting', function (viewField, eventName, eventField) {
+    try {
+        var text = '';
+        if(eventField.className == true && eventField.value != undefined) {
+            if(typeof(eventField.value) == 'string') {
+                text += eventField.value
+            } else {
+                text += viewField.className + '.valueOf(' + eventField.value + ')';
+            }
+        } else {
+            if(viewField.className != eventField.className) {
+                if(viewField.className == 'Integer' && eventField.className == 'String') {
+                    text += viewField.className + '.parseInt(' + eventName + '.get' + eventField.namePascalCase + '())';
+                } else if((viewField.className == 'Integer' || viewField.className == 'Long') && (eventField.className == 'Integer' || eventField.className == 'Long')) {
+                    text += eventName + '.get' + eventField.namePascalCase +'()';
+                } else if((viewField.className == 'Float' || viewField.className == 'Double') && (eventField.className == 'Float' || eventField.className == 'Double')) {
+                    text += eventName + '.get' + eventField.namePascalCase +'()';
+                } else {
+                    text += viewField.className + '.valueOf(' + eventName + '.get' + eventField.namePascalCase + '())';
+                }
+            } else {
+                text += eventName + '.get' + eventField.namePascalCase +'()';
+            }
+        }
+        return text;
+    } catch (e) {
+        console.log(e);
+    }
+});
 
+window.$HandleBars.registerHelper('print', function (value) {
+    console.log('view hanlder pring', value)
+    // return value
+});
 </function>

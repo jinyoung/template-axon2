@@ -1,32 +1,13 @@
-
-forEach: Model
-fileName: README.md
-path: for-model
----
 ## How to run
 
-- Run axon server firstly
-
-You need the Axon server to run this application.
-You can download the Axon server from below url:
-https://axoniq.io/download  
-
+- Run axon server and mysql firstly
 
 ```
-cd axon-server
-java -jar axonserver-4.3.5.jar
+cd infra
+docker-compose up
 ```
 
-axon server UI  
-http://localhost:8024  
-
-or You can run the axon server with docker:
-
-```
-docker run -d --name my-axon-server -p 8024:8024 -p 8124:8124 axoniq/axonserver
-```
-
-## Build & Run each service
+## Build common API & Run each service
 
 '''
 cd common-api
@@ -37,5 +18,6 @@ cd ..
 cd {{name}}
 mvn spring-boot:run
 cd ..
+
 {{/boundedContexts}}
 '''

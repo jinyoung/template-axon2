@@ -1,8 +1,3 @@
-
-forEach: Model
-fileName: init.sh
-path: for-model
----
 sudo apt-get update
 sudo apt-get install net-tools
 sudo apt install iputils-ping

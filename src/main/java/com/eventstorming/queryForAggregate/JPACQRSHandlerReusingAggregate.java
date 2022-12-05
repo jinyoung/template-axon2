@@ -1,3 +1,4 @@
+
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}CQRSHandler.java
@@ -9,12 +10,14 @@ package {{options.package}}.query;
 
 
 import {{options.package}}.event.*;
+import {{options.package}}.aggregate.*;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

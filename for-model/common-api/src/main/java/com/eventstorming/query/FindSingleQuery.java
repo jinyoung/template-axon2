@@ -10,10 +10,24 @@ import lombok.Data;
 @Data
 public class {{namePascalCase}}SingleQuery {
 
-{{#fieldDescriptors}}
+{{#contexts.target.fieldDescriptors}}
     {{#isKey}}
         private {{className}} {{nameCamelCase}};
     {{/isKey}}
-{{/fieldDescriptors}}
+{{/contexts.target.fieldDescriptors}}
 
 }
+
+
+<function>
+var me = this;
+
+if(this.dataProjection == "query-for-aggregate"){
+  this.contexts.target = this.boundedContext.aggregates[0].aggregateRoot;
+  this.contexts.readModelClass = this.contexts.target.namePascalCase + "ReadModel";
+}else{
+  this.contexts.target = this;
+  this.contexts.readModelClass = this.contexts.target.namePascalCase;
+}
+
+</function>

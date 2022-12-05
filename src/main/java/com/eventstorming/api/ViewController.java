@@ -40,9 +40,9 @@ public class {{../namePascalCase}}QueryController {
 
   @GetMapping("/{{namePlural}}")
   public CompletableFuture findAll() {
-      return queryGateway.query(new {{../namePascalCase}}Query(), ResponseTypes.multipleInstancesOf({{namePascalCase}}.class))
+      return queryGateway.query(new {{../namePascalCase}}Query(), ResponseTypes.multipleInstancesOf({{../contexts.readModelClass}}.class))
               .thenApply(resources -> {
-                CollectionModel<{{namePascalCase}}> model = CollectionModel.of(resources);
+                CollectionModel<{{../contexts.readModelClass}}> model = CollectionModel.of(resources);
                 
                 return new ResponseEntity<>(model, HttpStatus.OK);
             });
@@ -54,13 +54,13 @@ public class {{../namePascalCase}}QueryController {
     {{../namePascalCase}}SingleQuery query = new {{../namePascalCase}}SingleQuery();
     query.set{{../contexts.keyField}}(id);
 
-      return queryGateway.query(query, ResponseTypes.optionalInstanceOf({{namePascalCase}}.class))
+      return queryGateway.query(query, ResponseTypes.optionalInstanceOf({{../contexts.readModelClass}}.class))
               .thenApply(resource -> {
                 if(!resource.isPresent()){
                   return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 }
 
-                EntityModel<{{namePascalCase}}> model = EntityModel.of(resource.get());
+                EntityModel<{{../contexts.readModelClass}}> model = EntityModel.of(resource.get());
                 model
                       .add(Link.of("/{{namePlural}}/" + resource.get().get{{contexts.keyField}}()).withSelfRel());
               
@@ -84,6 +84,7 @@ var me = this;
 
 if(this.dataProjection == "query-for-aggregate"){
   this.contexts.target = this.boundedContext.aggregates[0];
+  this.contexts.readModelClass = this.contexts.target.namePascalCase + "ReadModel";
 
   this.contexts.target.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) {
       me.contexts.keyField=fd.namePascalCase;
@@ -94,6 +95,7 @@ if(this.dataProjection == "query-for-aggregate"){
 // alert(this.contexts.target.namePascalCase)
 }else{
   this.contexts.target = this;
+  this.contexts.readModelClass = this.contexts.target.namePascalCase;
 
   this.contexts.target.fieldDescriptors.forEach(fd => {if(fd.isKey) {
     me.contexts.keyField=fd.namePascalCase;

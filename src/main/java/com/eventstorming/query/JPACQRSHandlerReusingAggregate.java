@@ -4,7 +4,6 @@ representativeFor: View
 fileName: JPA{{namePascalCase}}QueryHandler.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
-_except: {{isNotQueryForAggregate}}
 ---
 package {{options.package}}.query;
 
@@ -84,7 +83,7 @@ public class JPA{{namePascalCase}}QueryHandler {
 <function>
 
 this.aggregate = this.boundedContext.aggregates[0];
-//alert(this.dataProjection)
+console.log(this)
 this.contexts.isNotQueryForAggregate = this.dataProjection=="cqrs"//(this.dataProjection == "QUERY-FOR-AGGREGATE")
 this.contexts.keyField = "Long";
 var me = this;

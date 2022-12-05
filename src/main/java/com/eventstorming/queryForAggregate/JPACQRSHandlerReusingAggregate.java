@@ -82,13 +82,12 @@ public class {{namePascalCase}}CQRSHandler {
 //>>> EDA / CQRS
 }
 
-
 <function>
-
+ 
 this.aggregate = this.boundedContext.aggregates[0];
 this.contexts.isNotQueryForAggregate = (this.dataProjection != "query-for-aggregate")
 
-if(!isNotQueryForAggregate){
+if(!this.contexts.isNotQueryForAggregate){
 
     this.contexts.keyField = "Long";
     var me = this;
@@ -96,7 +95,7 @@ if(!isNotQueryForAggregate){
     this.aggregate.events.forEach(event => {
         if(event.incomingCommandRefs)
             event.incomingCommandRefs.forEach(commandRef => {
-                if(commandRef.value.restRepositoryInfo.method == "POST"){
+                if(commandRef.value && commandRef.value.isRestRepository && commandRef.value.restRepositoryInfo.method == "POST"){
         
                     event.isCreateEvent = true;
                 }

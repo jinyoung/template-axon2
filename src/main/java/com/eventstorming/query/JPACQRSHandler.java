@@ -1,6 +1,6 @@
 forEach: View
 representativeFor: View
-fileName: JPA{{namePascalCase}}QueryHandler.java
+fileName: {{namePascalCase}}CQRSHandler.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
 except: {{contexts.isNotCQRS}}

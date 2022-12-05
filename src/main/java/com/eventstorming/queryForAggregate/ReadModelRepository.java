@@ -1,5 +1,5 @@
 forEach: View
-fileName: {{namePascalCase}}Repository.java
+fileName: {{aggregate.namePascalCase}}ReadModelRepository.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
 except: {{isNotQueryForAggregate}}

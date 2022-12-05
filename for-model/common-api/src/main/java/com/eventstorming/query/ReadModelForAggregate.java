@@ -1,6 +1,6 @@
-forEach: Aggregate
-representativeFor: Aggregate
-fileName: {{namePascalCase}}.java
+forEach: View
+representativeFor: View
+fileName: {{namePascalCase}}ReadModel.java
 path: common-api/{{{options.packagePath}}}/query
 except: {{isNotQueryForAggregate}}
 ---
@@ -17,6 +17,8 @@ import java.util.Date;
 @Data
 {{#setDiscriminator aggregateRoot.entities.relations nameCamelCase}}{{/setDiscriminator}}
 //<<< EDA / Read Model
+
+{{aggregate}}
 public class {{namePascalCase}}ReadModel {{#checkExtends aggregateRoot.entities.relations namePascalCase}}{{/checkExtends}} {
 
 
@@ -46,7 +48,7 @@ public class {{namePascalCase}}ReadModel {{#checkExtends aggregateRoot.entities.
     {{/setOperations}}
 {{/aggregateRoot.operations}}
 
-
+{{/aggregate}}
 
 
 }

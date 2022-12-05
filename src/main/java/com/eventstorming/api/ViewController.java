@@ -1,3 +1,4 @@
+
 forEach: View
 fileName: {{namePascalCase}}QueryController.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/api
@@ -23,12 +24,14 @@ import org.springframework.http.ResponseEntity;
 
 import {{options.package}}.query.*;
 
+
+  {{#contexts.target}}
+  
 @RestController
 public class {{namePascalCase}}QueryController {
 
   private final QueryGateway queryGateway;
 
-  {{#contexts.target}}
 
   public {{namePascalCase}}QueryController(QueryGateway queryGateway) {
       this.queryGateway = queryGateway;
@@ -47,9 +50,9 @@ public class {{namePascalCase}}QueryController {
   }
 
   @GetMapping("/{{namePlural}}/{id}")
-  public CompletableFuture findById(@PathVariable("id") {{contexts.keyFieldClass}} id) {
+  public CompletableFuture findById(@PathVariable("id") {{../contexts.keyFieldClass}} id) {
     {{namePascalCase}}SingleQuery query = new {{namePascalCase}}SingleQuery();
-    query.set{{contexts.keyField}}(id);
+    query.set{{../contexts.keyField}}(id);
 
       return queryGateway.query(query, ResponseTypes.optionalInstanceOf({{namePascalCase}}.class))
               .thenApply(resource -> {
@@ -80,15 +83,25 @@ this.contexts.keyFieldClass = "String";
 var me = this;
 
 if(this.dataProjection == "query-for-aggregate"){
-  this.contexts.target = this.boundedContext.aggregates[0].aggregateRoot;
+  this.contexts.target = this.boundedContext.aggregates[0];
+
+  this.contexts.target.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) {
+      me.contexts.keyField=fd.namePascalCase;
+      me.contexts.keyFieldClass=fd.className;
+    }
+  });
+
+// alert(this.contexts.target.namePascalCase)
 }else{
   this.contexts.target = this;
-}
 
-this.contexts.target.fieldDescriptors.forEach(fd => {if(fd.isKey) {
+  this.contexts.target.fieldDescriptors.forEach(fd => {if(fd.isKey) {
     me.contexts.keyField=fd.namePascalCase;
     me.contexts.keyFieldClass=fd.className;
   }
 });
+
+}
+
 
 </function>

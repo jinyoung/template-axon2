@@ -25,7 +25,7 @@ public class {{namePascalCase}}Command {
     private {{className}} {{nameCamelCase}};  // Please comment here if you want user to enter the id directly
     //>>> Etc / ID Generation
     {{else}}
-    private {{className}} {{nameCamelCase}};
+    private {{{className}}} {{nameCamelCase}};
     {{/isKey}}
     {{/aggregate.aggregateRoot.fieldDescriptors}}
 

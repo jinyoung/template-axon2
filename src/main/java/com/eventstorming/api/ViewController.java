@@ -1,4 +1,5 @@
 
+
 forEach: View
 fileName: {{namePascalCase}}QueryController.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/api
@@ -62,7 +63,7 @@ public class {{../namePascalCase}}QueryController {
 
                 EntityModel<{{../contexts.readModelClass}}> model = EntityModel.of(resource.get());
                 model
-                      .add(Link.of("/{{namePlural}}/" + resource.get().get{{contexts.keyField}}()).withSelfRel());
+                      .add(Link.of("/{{namePlural}}/" + resource.get().get{{../contexts.keyField}}()).withSelfRel());
               
                 return new ResponseEntity<>(model, HttpStatus.OK);
             }).exceptionally(ex ->{

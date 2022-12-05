@@ -1,5 +1,6 @@
 
 
+
 forEach: Aggregate
 fileName: {{namePascalCase}}Aggregate.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/aggregate
@@ -23,6 +24,8 @@ import lombok.ToString;
 
 import {{options.package}}.command.*;
 import {{options.package}}.event.*;
+import {{options.package}}.query.*;
+
 
 //<<< DDD / Aggregate Root
 @Aggregate

@@ -1,7 +1,7 @@
 
 forEach: View
 representativeFor: View
-fileName: JPA{{namePascalCase}}QueryForAggregateHandler.java
+fileName: {{namePascalCase}}CQRSHandler.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
 except: {{isNotQueryForAggregate}}
@@ -31,16 +31,16 @@ public class JPA{{namePascalCase}}QueryHandler {
 
 //<<< EDA / CQRS
     @Autowired
-    private {{../aggregate.namePascalCase}}Repository repository;
+    private {{aggregate.namePascalCase}}Repository repository;
 
     @QueryHandler
-    public List<{{namePascalCase}}> handle({{namePascalCase}}Query query) {
-        return {{nameCamelCase}}Repository.findAll();
+    public List<{{aggregate.namePascalCase}}> handle({{namePascalCase}}Query query) {
+        return repository.findAll();
     }
 
     @QueryHandler
-    public Optional<{{namePascalCase}}> handle({{namePascalCase}}SingleQuery query) {
-        return {{nameCamelCase}}Repository.findById(query.get{{contexts.keyField}}());
+    public Optional<{{aggregate.namePascalCase}}> handle({{namePascalCase}}SingleQuery query) {
+        return repository.findById(query.get{{contexts.keyField}}());
     }
 
 {{#aggregate.events}}
@@ -85,7 +85,7 @@ public class JPA{{namePascalCase}}QueryHandler {
 
 this.aggregate = this.boundedContext.aggregates[0];
 console.log(this)
-this.contexts.isNotQueryForAggregate = (this.dataProjection && this.dataProjection=="cqrs")//(this.dataProjection == "QUERY-FOR-AGGREGATE")
+this.contexts.isNotQueryForAggregate = (this.dataProjection != "query-for-aggregate")
 this.contexts.keyField = "Long";
 var me = this;
 this.aggregate.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) me.contexts.keyField=fd.namePascalCase});

@@ -1,7 +1,4 @@
 
-
-
-
 forEach: Command
 fileName: {{namePascalCase}}Command.java
 path: common-api/{{{options.packagePath}}}/command

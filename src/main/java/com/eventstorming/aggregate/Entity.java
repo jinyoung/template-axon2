@@ -1,4 +1,5 @@
 
+
 forEach: Aggregate
 fileName: {{namePascalCase}}Aggregate.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/aggregate
@@ -33,7 +34,7 @@ public class {{namePascalCase}}Aggregate {
     {{#isKey}}
     @AggregateIdentifier
     {{/isKey}}
-    private {{className}} {{nameCamelCase}};
+    private {{{className}}} {{nameCamelCase}};
     {{/aggregateRoot.fieldDescriptors}}
 
     public {{namePascalCase}}Aggregate(){}

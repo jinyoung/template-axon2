@@ -1,5 +1,6 @@
 
 
+
 forEach: View
 representativeFor: View
 fileName: {{aggregate.namePascalCase}}ReadModel.java
@@ -30,7 +31,6 @@ public class {{namePascalCase}}ReadModel {{#checkExtends aggregateRoot.entities.
     {{#aggregateRoot.fieldDescriptors}}
     {{^isVO}}{{#isKey}}
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     {{/isKey}}{{/isVO}}
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}{{/isList}}{{/if}}

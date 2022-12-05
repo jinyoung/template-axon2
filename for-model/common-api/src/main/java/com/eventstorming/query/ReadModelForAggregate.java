@@ -1,3 +1,4 @@
+
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}ReadModel.java
@@ -10,6 +11,8 @@ import javax.persistence.*;
 import java.util.List;
 import lombok.Data;
 import java.util.Date;
+{{aggregate}}
+
 {{#checkBigDecimal aggregateRoot.fieldDescriptors}}{{/checkBigDecimal}}
 
 @Entity
@@ -18,7 +21,6 @@ import java.util.Date;
 {{#setDiscriminator aggregateRoot.entities.relations nameCamelCase}}{{/setDiscriminator}}
 //<<< EDA / Read Model
 
-{{aggregate}}
 public class {{namePascalCase}}ReadModel {{#checkExtends aggregateRoot.entities.relations namePascalCase}}{{/checkExtends}} {
 
 

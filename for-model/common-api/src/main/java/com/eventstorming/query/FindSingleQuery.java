@@ -1,6 +1,3 @@
-
-
-
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}SingleQuery.java

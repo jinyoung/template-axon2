@@ -28,19 +28,19 @@ import {{options.package}}.query.*;
   {{#contexts.target}}
   
 @RestController
-public class {{namePascalCase}}QueryController {
+public class {{../namePascalCase}}QueryController {
 
   private final QueryGateway queryGateway;
 
 
-  public {{namePascalCase}}QueryController(QueryGateway queryGateway) {
+  public {{../namePascalCase}}QueryController(QueryGateway queryGateway) {
       this.queryGateway = queryGateway;
   }
   
 
   @GetMapping("/{{namePlural}}")
   public CompletableFuture findAll() {
-      return queryGateway.query(new {{namePascalCase}}Query(), ResponseTypes.multipleInstancesOf({{namePascalCase}}.class))
+      return queryGateway.query(new {{../namePascalCase}}Query(), ResponseTypes.multipleInstancesOf({{namePascalCase}}.class))
               .thenApply(resources -> {
                 CollectionModel<{{namePascalCase}}> model = CollectionModel.of(resources);
                 
@@ -51,7 +51,7 @@ public class {{namePascalCase}}QueryController {
 
   @GetMapping("/{{namePlural}}/{id}")
   public CompletableFuture findById(@PathVariable("id") {{../contexts.keyFieldClass}} id) {
-    {{namePascalCase}}SingleQuery query = new {{namePascalCase}}SingleQuery();
+    {{../namePascalCase}}SingleQuery query = new {{../namePascalCase}}SingleQuery();
     query.set{{../contexts.keyField}}(id);
 
       return queryGateway.query(query, ResponseTypes.optionalInstanceOf({{namePascalCase}}.class))

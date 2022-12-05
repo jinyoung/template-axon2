@@ -85,7 +85,7 @@ public class JPA{{namePascalCase}}QueryHandler {
 
 this.aggregate = this.boundedContext.aggregates[0];
 console.log(this)
-this.contexts.isNotQueryForAggregate = this.dataProjection=="cqrs"//(this.dataProjection == "QUERY-FOR-AGGREGATE")
+this.contexts.isNotQueryForAggregate = (this.dataProjection && this.dataProjection=="cqrs")//(this.dataProjection == "QUERY-FOR-AGGREGATE")
 this.contexts.keyField = "Long";
 var me = this;
 this.aggregate.aggregateRoot.fieldDescriptors.forEach(fd => {if(fd.isKey) me.contexts.keyField=fd.namePascalCase});

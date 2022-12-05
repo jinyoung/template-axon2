@@ -1,7 +1,8 @@
 
+
 forEach: View
 representativeFor: View
-fileName: {{namePascalCase}}ReadModel.java
+fileName: {{aggregate.namePascalCase}}ReadModel.java
 path: common-api/{{{options.packagePath}}}/query
 except: {{isNotQueryForAggregate}}
 ---
@@ -11,7 +12,9 @@ import javax.persistence.*;
 import java.util.List;
 import lombok.Data;
 import java.util.Date;
-{{aggregate}}
+
+
+{{#aggregate}}
 
 {{#checkBigDecimal aggregateRoot.fieldDescriptors}}{{/checkBigDecimal}}
 

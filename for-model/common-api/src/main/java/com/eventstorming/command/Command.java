@@ -56,7 +56,6 @@ public class {{namePascalCase}}Command {
 <function>
 
 window.$HandleBars.registerHelper('importTypes', function (fieldDescriptors) {
-    debugger; 
     var imports = "";
 
     var typeMappings = {

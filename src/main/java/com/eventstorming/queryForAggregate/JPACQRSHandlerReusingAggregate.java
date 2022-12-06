@@ -1,7 +1,6 @@
-
 forEach: View
 representativeFor: View
-fileName: {{namePascalCase}}CQRSHandler.java
+fileName: {{namePascalCase}}CQRSHandlerReusingAggregate.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
 except: {{isNotQueryForAggregate}}
@@ -29,7 +28,7 @@ import java.io.IOException;
 
 @Service
 @ProcessingGroup("{{nameCamelCase}}")
-public class {{namePascalCase}}CQRSHandler {
+public class {{namePascalCase}}CQRSHandlerReusingAggregate {
 
 //<<< EDA / CQRS
     @Autowired
@@ -85,6 +84,7 @@ public class {{namePascalCase}}CQRSHandler {
 <function>
  
 this.aggregate = this.boundedContext.aggregates[0];
+
 this.contexts.isNotQueryForAggregate = (this.dataProjection != "query-for-aggregate")
 
 if(!this.contexts.isNotQueryForAggregate){

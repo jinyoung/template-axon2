@@ -32,12 +32,12 @@ import {{options.package}}.query.*;
   {{#contexts.target}}
   
 @RestController
-public class {{../namePascalCase}}QueryController {
+public class {{@root.namePascalCase}}QueryController {
 
   private final QueryGateway queryGateway;
 
 
-  public {{../namePascalCase}}QueryController(QueryGateway queryGateway) {
+  public {{@root.namePascalCase}}QueryController(QueryGateway queryGateway) {
       this.queryGateway = queryGateway;
   }
   
@@ -66,7 +66,7 @@ public class {{../namePascalCase}}QueryController {
 
   @GetMapping("/{{namePlural}}/{id}")
   public CompletableFuture findById(@PathVariable("id") {{@root.contexts.keyFieldClass}} id) {
-    {{../namePascalCase}}SingleQuery query = new {{@root.namePascalCase}}SingleQuery();
+    {{@root.namePascalCase}}SingleQuery query = new {{@root.namePascalCase}}SingleQuery();
     query.set{{@root.contexts.keyField}}(id);
 
       return queryGateway.query(query, ResponseTypes.optionalInstanceOf({{@root.contexts.readModelClass}}.class))

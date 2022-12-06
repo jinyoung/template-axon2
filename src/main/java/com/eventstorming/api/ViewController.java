@@ -50,17 +50,7 @@ public class {{../namePascalCase}}QueryController {
                 List modelList = new ArrayList<EntityModel<{{../contexts.readModelClass}}>>();
                 
                 resources.stream().forEach(resource ->{
-                    EntityModel<{{../contexts.readModelClass}}> model = EntityModel.of(
-                        resource
-                    );
-
-                    model.add(
-                        Link
-                        .of("/{{namePlural}}/" + resource.get{{../contexts.keyField}}())
-                        .withSelfRel()
-                    );
-    
-                    modelList.add(model);
+                    modelList.add(hateoas(resource));
                 });
 
                 CollectionModel<{{../contexts.readModelClass}}> model = CollectionModel.of(
@@ -73,6 +63,7 @@ public class {{../namePascalCase}}QueryController {
 
   }
 
+
   @GetMapping("/{{namePlural}}/{id}")
   public CompletableFuture findById(@PathVariable("id") {{../contexts.keyFieldClass}} id) {
     {{../namePascalCase}}SingleQuery query = new {{../namePascalCase}}SingleQuery();
@@ -84,15 +75,37 @@ public class {{../namePascalCase}}QueryController {
                   return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 }
 
-                EntityModel<{{../contexts.readModelClass}}> model = EntityModel.of(resource.get());
-                model
-                      .add(Link.of("/{{namePlural}}/" + resource.get().get{{../contexts.keyField}}()).withSelfRel());
-              
-                return new ResponseEntity<>(model, HttpStatus.OK);
+                return new ResponseEntity<>(hateoas(resource.get()), HttpStatus.OK);
             }).exceptionally(ex ->{
               throw new RuntimeException(ex);
             });
 
+  }
+
+  EntityModel<{{../contexts.readModelClass}}> hateoas({{../contexts.readModelClass}} resource){
+    EntityModel<{{../contexts.readModelClass}}> model = EntityModel.of(
+        resource
+    );
+
+    model.add(
+        Link
+        .of("/{{namePlural}}/" + resource.get{{../contexts.keyField}}())
+        .withSelfRel()
+    );
+
+    {{#../contexts.isNotCQRS}}
+      {{#../contexts.target.commands}}
+      {{#ifEquals isRestRepository false}}
+          model.add(
+              Link
+              .of("/{{../namePlural}}/" + resource.get{{../../contexts.keyField}}() + "/{{nameCamelCase}}")
+              .withHref("{{nameCamelCase}}")
+          );
+      {{/ifEquals}}
+      {{/../contexts.target.commands}}
+    {{/../contexts.isNotCQRS}}
+
+    return model;
   }
 
   {{/contexts.target}}

@@ -21,7 +21,7 @@ import org.springframework.hateoas.server.core.Relation;
 @Entity
 @Table(name="{{namePascalCase}}_table")
 @Data
-@Relation(collectionRelation = "namePlural")
+@Relation(collectionRelation = "{{namePlural}}")
 {{#setDiscriminator aggregateRoot.entities.relations nameCamelCase}}{{/setDiscriminator}}
 //<<< EDA / Read Model
 

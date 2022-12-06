@@ -1,3 +1,6 @@
+forEach: Model
+fileName: router.js
+
 path: frontend/src
 ---
 
@@ -14,8 +17,10 @@ import {{namePascalCase}}Detail from "./components/listers/{{namePascalCase}}Det
     {{/aggregates}}
 
     {{#viewes}}
+        {{#ifEquals dataProjection "cqrs"}}
 import {{namePascalCase}}View from "./components/{{namePascalCase}}View"
 import {{namePascalCase}}ViewDetail from "./components/{{namePascalCase}}ViewDetail"
+        {{/ifEquals}}
     {{/viewes}}
 {{/boundedContexts}}
 
@@ -38,6 +43,8 @@ export default new Router({
         {{/aggregates}}
 
         {{#viewes}}
+        {{#ifEquals dataProjection "cqrs"}}
+
             {
                 path: '/{{namePlural}}',
                 name: '{{namePascalCase}}View',
@@ -48,6 +55,7 @@ export default new Router({
                 name: '{{namePascalCase}}ViewDetail',
                 component: {{namePascalCase}}ViewDetail
             },
+        {{/ifEquals}}
         {{/viewes}}
        {{/boundedContexts}}
 

@@ -98,8 +98,8 @@ public class {{../namePascalCase}}QueryController {
       {{#ifEquals isRestRepository false}}
           model.add(
               Link
-              .of("/{{../namePlural}}/" + resource.get{{../../contexts.keyField}}() + "/{{nameCamelCase}}")
-              .withRel("{{nameCamelCase}}")
+              .of("/{{../namePlural}}/" + resource.get{{../../contexts.keyField}}() + "/{{controllerInfo.apiPath}}")
+              .withRel("{{controllerInfo.apiPath}}")
           );
       {{/ifEquals}}
       {{/../contexts.target.commands}}

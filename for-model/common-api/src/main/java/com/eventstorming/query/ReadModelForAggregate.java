@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.List;
 import lombok.Data;
 import java.util.Date;
+import org.springframework.hateoas.server.core.Relation;
 
 
 {{#aggregate}}
@@ -20,6 +21,7 @@ import java.util.Date;
 @Entity
 @Table(name="{{namePascalCase}}_table")
 @Data
+@Relation(collectionRelation = "namePlural")
 {{#setDiscriminator aggregateRoot.entities.relations nameCamelCase}}{{/setDiscriminator}}
 //<<< EDA / Read Model
 

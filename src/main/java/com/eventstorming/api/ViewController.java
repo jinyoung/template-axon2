@@ -43,11 +43,31 @@ public class {{../namePascalCase}}QueryController {
   @GetMapping("/{{namePlural}}")
   public CompletableFuture findAll({{../namePascalCase}}Query query) {
       return queryGateway.query(query , ResponseTypes.multipleInstancesOf({{../contexts.readModelClass}}.class))
-              .thenApply(resources -> {
-                CollectionModel<{{../contexts.readModelClass}}> model = CollectionModel.of(resources);
+            
+             .thenApply(resources -> {
+                List modelList = new ArrayList<EntityModel<{{../contexts.readModelClass}}>>();
                 
+                resources.stream().forEach(resource ->{
+                    EntityModel<{{../contexts.readModelClass}}> model = EntityModel.of(
+                        resource
+                    );
+
+                    model.add(
+                        Link
+                        .of("/{{namePlural}}/" + resource.get{{../contexts.keyField}}())
+                        .withSelfRel()
+                    );
+    
+                    modelList.add(model);
+                });
+
+                CollectionModel<{{../contexts.readModelClass}}> model = CollectionModel.of(
+                    modelList
+                );
+
                 return new ResponseEntity<>(model, HttpStatus.OK);
             });
+            
 
   }
 

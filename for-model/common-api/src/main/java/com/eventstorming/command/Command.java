@@ -13,7 +13,7 @@ import lombok.ToString;
 import java.util.List;
 import {{options.package}}.query.*;
 
-{{importTypes aggregate.aggregateRoot.fieldDescriptors}}
+{{importTypes fieldDescriptors}}
 
 @ToString
 @Data
@@ -56,7 +56,7 @@ public class {{namePascalCase}}Command {
 <function>
 
 window.$HandleBars.registerHelper('importTypes', function (fieldDescriptors) {
-    debugger;
+    debugger; 
     var imports = "";
 
     var typeMappings = {

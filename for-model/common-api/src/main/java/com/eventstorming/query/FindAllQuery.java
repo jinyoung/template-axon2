@@ -7,6 +7,7 @@ path: common-api/{{{options.packagePath}}}/query
 package {{options.package}}.query;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
 {{importTypes queryParameters}}
 
 public class {{namePascalCase}}Query {
@@ -31,6 +32,7 @@ window.$HandleBars.registerHelper('importTypes', function (fieldDescriptors) {
         "BigDecimal": "java.math.BigDecimal"
     };
 
+    if(fieldDescriptors)
     for(var i = 0; i < fieldDescriptors.length; i ++ ){
         if(fieldDescriptors[i]){
             var fullTypeName = typeMappings[fieldDescriptors[i].className];

@@ -1,6 +1,8 @@
+
 forEach: View
 fileName: {{namePascalCase}}ViewDetail.vue
 path: frontend/src/components
+except: {{contexts.isNotCQRS}}
 ---
 <template>
 
@@ -59,7 +61,8 @@ path: frontend/src/components
 
 
 <function>
-  
+     this.contexts.isNotCQRS = this.dataProjection!="cqrs"
+
     window.$HandleBars.registerHelper('isNotId', function (className) {
         return (className != 'id')
     })

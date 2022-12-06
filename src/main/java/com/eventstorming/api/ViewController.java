@@ -10,6 +10,8 @@ _except: {{contexts.isNotCQRS}}
 package {{options.package}}.api;
 
 import java.util.List;
+import java.util.ArrayList;
+
 import java.util.concurrent.CompletableFuture;
 
 import org.axonframework.messaging.responsetypes.ResponseTypes;

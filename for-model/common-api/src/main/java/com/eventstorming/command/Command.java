@@ -13,6 +13,8 @@ import lombok.ToString;
 import java.util.List;
 import {{options.package}}.query.*;
 
+{{importTypes aggregate.aggregateRoot.fieldDescriptors}}
+
 @ToString
 @Data
 public class {{namePascalCase}}Command {
@@ -48,3 +50,33 @@ public class {{namePascalCase}}Command {
 
     {{/if}}
 }
+
+
+
+<function>
+
+window.$HandleBars.registerHelper('importTypes', function (fieldDescriptors) {
+    debugger;
+    var imports = "";
+
+    var typeMappings = {
+        "Date": "java.util.Date",
+        "BigDecimal": "java.math.BigDecimal"
+    };
+
+    for(var i = 0; i < fieldDescriptors.length; i ++ ){
+        if(fieldDescriptors[i]){
+            var fullTypeName = typeMappings[fieldDescriptors[i].className];
+
+            if(fullTypeName){
+                imports += "import " + fullTypeName + ";\n";
+                typeMappings[fieldDescriptors[i].className] = null;
+            }
+        } 
+    }
+
+    return imports;
+});
+
+
+</function>

@@ -3,8 +3,9 @@ representativeFor: View
 fileName: {{namePascalCase}}CQRSHandlerReusingAggregate.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
 mergeType: template
-except: {{isNotQueryForAggregate}}
+except: {{contexts.isNotQueryForAggregate}}
 ---
+
 package {{options.package}}.query;
 
 

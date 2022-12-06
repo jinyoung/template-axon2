@@ -1,7 +1,10 @@
+
 forEach: View
 fileName: {{namePascalCase}}View.vue
 path: frontend/src/components
+except: {{contexts.isNotCQRS}}
 ---
+
 <template>
 
     <v-data-table
@@ -45,6 +48,7 @@ path: frontend/src/components
 
 
 <function>
+   this.contexts.isNotCQRS = this.dataProjection!="cqrs"
 
   window.$HandleBars.registerHelper('toURL', function (className) {
 

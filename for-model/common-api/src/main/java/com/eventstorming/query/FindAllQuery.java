@@ -1,3 +1,4 @@
+
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}Query.java
@@ -14,7 +15,7 @@ public class {{namePascalCase}}Query {
     {{#ifEquals className "Date"}}
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     {{/ifEquals}}
-    {{{className}}} {{nameCamelCase}}
+    {{{className}}} {{nameCamelCase}};
     {{/queryParameters}}
     
 }

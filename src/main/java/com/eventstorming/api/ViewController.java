@@ -43,17 +43,17 @@ public class {{../namePascalCase}}QueryController {
   
 
   @GetMapping("/{{namePlural}}")
-  public CompletableFuture findAll({{../namePascalCase}}Query query) {
-      return queryGateway.query(query , ResponseTypes.multipleInstancesOf({{../contexts.readModelClass}}.class))
+  public CompletableFuture findAll({{@root.namePascalCase}}Query query) {
+      return queryGateway.query(query , ResponseTypes.multipleInstancesOf({{@root.contexts.readModelClass}}.class))
             
              .thenApply(resources -> {
-                List modelList = new ArrayList<EntityModel<{{../contexts.readModelClass}}>>();
+                List modelList = new ArrayList<EntityModel<{{@root.contexts.readModelClass}}>>();
                 
                 resources.stream().forEach(resource ->{
                     modelList.add(hateoas(resource));
                 });
 
-                CollectionModel<{{../contexts.readModelClass}}> model = CollectionModel.of(
+                CollectionModel<{{@root.contexts.readModelClass}}> model = CollectionModel.of(
                     modelList
                 );
 
@@ -65,11 +65,11 @@ public class {{../namePascalCase}}QueryController {
 
 
   @GetMapping("/{{namePlural}}/{id}")
-  public CompletableFuture findById(@PathVariable("id") {{../contexts.keyFieldClass}} id) {
-    {{../namePascalCase}}SingleQuery query = new {{../namePascalCase}}SingleQuery();
-    query.set{{../contexts.keyField}}(id);
+  public CompletableFuture findById(@PathVariable("id") {{@root.contexts.keyFieldClass}} id) {
+    {{../namePascalCase}}SingleQuery query = new {{@root.namePascalCase}}SingleQuery();
+    query.set{{@root.contexts.keyField}}(id);
 
-      return queryGateway.query(query, ResponseTypes.optionalInstanceOf({{../contexts.readModelClass}}.class))
+      return queryGateway.query(query, ResponseTypes.optionalInstanceOf({{@root.contexts.readModelClass}}.class))
               .thenApply(resource -> {
                 if(!resource.isPresent()){
                   return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -82,19 +82,19 @@ public class {{../namePascalCase}}QueryController {
 
   }
 
-  EntityModel<{{../contexts.readModelClass}}> hateoas({{../contexts.readModelClass}} resource){
-    EntityModel<{{../contexts.readModelClass}}> model = EntityModel.of(
+  EntityModel<{{@root.contexts.readModelClass}}> hateoas({{@root.contexts.readModelClass}} resource){
+    EntityModel<{{@root.contexts.readModelClass}}> model = EntityModel.of(
         resource
     );
 
     model.add(
         Link
-        .of("/{{namePlural}}/" + resource.get{{../contexts.keyField}}())
+        .of("/{{namePlural}}/" + resource.get{{@root.contexts.keyField}}())
         .withSelfRel()
     );
 
-    {{#../contexts.isNotCQRS}}
-      {{#../contexts.target.commands}}
+    {{#@root.contexts.isNotCQRS}}
+      {{#@root.contexts.target.commands}}
       {{#ifEquals isRestRepository false}}
           model.add(
               Link
@@ -102,8 +102,8 @@ public class {{../namePascalCase}}QueryController {
               .withRel("{{controllerInfo.apiPath}}")
           );
       {{/ifEquals}}
-      {{/../contexts.target.commands}}
-    {{/../contexts.isNotCQRS}}
+      {{/@root.contexts.target.commands}}
+    {{/@root.contexts.isNotCQRS}}
 
     return model;
   }

@@ -99,7 +99,7 @@ public class {{../namePascalCase}}QueryController {
           model.add(
               Link
               .of("/{{../namePlural}}/" + resource.get{{../../contexts.keyField}}() + "/{{nameCamelCase}}")
-              .withHref("{{nameCamelCase}}")
+              .withRel("{{nameCamelCase}}")
           );
       {{/ifEquals}}
       {{/../contexts.target.commands}}

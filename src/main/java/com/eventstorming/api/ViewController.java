@@ -1,5 +1,6 @@
 
 
+
 forEach: View
 fileName: {{namePascalCase}}QueryController.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/api
@@ -40,8 +41,8 @@ public class {{../namePascalCase}}QueryController {
   
 
   @GetMapping("/{{namePlural}}")
-  public CompletableFuture findAll() {
-      return queryGateway.query(new {{../namePascalCase}}Query(), ResponseTypes.multipleInstancesOf({{../contexts.readModelClass}}.class))
+  public CompletableFuture findAll({{../namePascalCase}}Query query) {
+      return queryGateway.query(query , ResponseTypes.multipleInstancesOf({{../contexts.readModelClass}}.class))
               .thenApply(resources -> {
                 CollectionModel<{{../contexts.readModelClass}}> model = CollectionModel.of(resources);
                 

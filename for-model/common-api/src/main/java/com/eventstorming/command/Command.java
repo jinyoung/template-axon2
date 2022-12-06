@@ -1,6 +1,3 @@
-
-
-
 forEach: Command
 fileName: {{namePascalCase}}Command.java
 path: common-api/{{{options.packagePath}}}/command
@@ -13,6 +10,8 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import lombok.Data;
 import lombok.ToString;
+import java.util.List;
+import {{options.package}}.query.*;
 
 @ToString
 @Data

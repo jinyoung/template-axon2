@@ -1,3 +1,4 @@
+
 forEach: View
 representativeFor: View
 fileName: {{aggregate.namePascalCase}}ReadModel.java
@@ -148,7 +149,7 @@ window.$HandleBars.registerHelper('checkRelations', function (relations, classNa
             if(className.includes("String") || className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float")
                     || className.includes("Boolean") || className.includes("Date")) {
                 if(className.includes("List")) {
-                    return "@ElementCollection"
+                    return "@ElementCollection(fetch = FetchType.EAGER)"
                 }
             } else {
                 // ValueObject
@@ -162,7 +163,7 @@ window.$HandleBars.registerHelper('checkRelations', function (relations, classNa
 
                 if(isVO) {
                     if(className.includes("List")) {
-                        return "@ElementCollection"
+                        return "@ElementCollection(fetch = FetchType.EAGER)"
                     } else {
                         return "@Embedded"
                     }
@@ -178,24 +179,24 @@ window.$HandleBars.registerHelper('checkRelations', function (relations, classNa
                                 if(relations[i].sourceMultiplicity == "1" &&
                                         (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n") || className.includes("List")
                                 ) {
-                                    return "@OneToMany"
+                                    return "@OneToMany(fetch = FetchType.EAGER)"
 
                                 } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") && relations[i].targetMultiplicity == "1"){
-                                    return "@ManyToOne"
+                                    return "@ManyToOne(fetch = FetchType.EAGER)"
                                 
                                 } else if(relations[i].sourceMultiplicity == "1" && relations[i].targetMultiplicity == "1"){
-                                    return "@OneToOne"
+                                    return "@OneToOne(fetch = FetchType.EAGER)"
                                 
                                 } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") &&
                                         (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n") || className.includes("List")
                                 ) {
-                                    return "@ManyToMany"
+                                    return "@ManyToMany(fetch = FetchType.EAGER)"
                                 }
                             }
                         }
                     }
                     if(referenceClass) {
-                        return "@OneToOne"
+                        return "@OneToOne(fetch = FetchType.EAGER)"
                     }
                 }
             }

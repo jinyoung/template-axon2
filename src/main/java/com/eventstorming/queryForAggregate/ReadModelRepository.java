@@ -1,3 +1,4 @@
+
 forEach: View
 fileName: {{aggregate.namePascalCase}}ReadModelRepository.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/query
@@ -17,7 +18,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 //@RepositoryRestResource(path = "{{namePlural}}", collectionResourceRel = "{{namePlural}}")
-public interface {{aggregate.namePascalCase}}ReadModelRepository extends JpaRepository<{{aggregate.namePascalCase}}, {{contexts.keyFieldClass}}> {
+public interface {{aggregate.namePascalCase}}ReadModelRepository extends JpaRepository<{{aggregate.namePascalCase}}ReadModel, {{contexts.keyFieldClass}}> {
 
 //<<< API / HATEOAS
 /*

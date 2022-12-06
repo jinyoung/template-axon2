@@ -36,7 +36,7 @@ window.$HandleBars.registerHelper('importTypes', function (fieldDescriptors) {
             var fullTypeName = typeMappings[fieldDescriptors[i].className];
 
             if(fullTypeName){
-                imports += "import " + fullTypeName + "\n";
+                imports += "import " + fullTypeName + ";\n";
                 typeMappings[fieldDescriptors[i].className] = null;
             }
         } 

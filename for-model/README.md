@@ -1,3 +1,7 @@
+forEach: Model
+fileName: README.md
+path: for-model
+---
 ## How to run
 
 - Run axon server and mysql firstly
@@ -21,3 +25,31 @@ cd ..
 
 {{/boundedContexts}}
 '''
+
+<function>
+
+window.$HandleBars.registerHelper('ifEqualsJP', function (jsonPath, value, options) {
+    var evaluatedVal = window.jp.query(this, jsonPath);
+ 
+    if(evaluatedVal == value){
+        return options.fn(this)
+    }else{
+        return options.inverse(this)
+    }
+
+});
+
+window.$HandleBars.registerHelper('ifContainsJP', function (jsonPath, value, options) {
+    var evaluatedVal = window.jp.query(this, jsonPath);
+    if( evaluatedVal == value || evaluatedVal.includes(value)
+        //(Array.isArray(evaluatedVal) && evaluatedVal.includes(value))
+        //|| (typeof evaluatedVal === 'string' && evaluatedVal.con)    -->
+    ){
+        return options.fn(this)
+    }else{
+        return options.inverse(this)
+    }
+
+});
+
+</function>

@@ -1,4 +1,5 @@
 
+
 forEach: Policy
 fileName: {{namePascalCase}}Saga.java
 
@@ -61,14 +62,11 @@ public class {{namePascalCase}}Saga {
 
 <function>
 
-
 var eventByNames = []
 var commandByNames = {}
 this.outgoingCommandRefs.forEach(
     commandRef => {
-        //alert(Object.keys(commandRef))
-        //alert(commandRef.targetValue)
-        commandByNames[commandRef.name] = commandRef.targetValue
+        commandByNames[commandRef.name] = commandRef.value
     }
 )
 
@@ -84,7 +82,7 @@ this.incomingEventRefs.forEach(
 
         var commandSequence = sequence + 1;
         eventByNames[sequence] = {
-            event: eventRef.targetValue,
+            event: eventRef.value,
             command: commandByNames[commandSequence],
             compensateCommand: commandByNames[commandSequence+"'"],
             isStartSaga: sequence ==1,

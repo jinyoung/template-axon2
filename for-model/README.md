@@ -28,18 +28,11 @@ cd ..
 
 <function>
 
-window.$HandleBars.registerHelper('ifEqualsJP', function (jsonPath, value, options) {
-    var evaluatedVal = window.jp.query(this, jsonPath);
- 
-    if(evaluatedVal == value){
-        return options.fn(this)
-    }else{
-        return options.inverse(this)
-    }
-
+window.$HandleBars.registerHelper('ifEquals', function (jsonPath, value, options) {
+    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 
-window.$HandleBars.registerHelper('ifContainsJP', function (jsonPath, value, options) {
+window.$HandleBars.registerHelper('ifContains', function (jsonPath, value, options) {
     var evaluatedVal = window.jp.query(this, jsonPath);
     if( evaluatedVal == value || evaluatedVal.includes(value)
         //(Array.isArray(evaluatedVal) && evaluatedVal.includes(value))

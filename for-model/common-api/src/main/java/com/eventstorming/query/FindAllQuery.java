@@ -1,5 +1,3 @@
-
-
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}Query.java
@@ -12,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 {{/ifContains}}
 
 {{importTypes queryParameters}}
+
 
 public class {{namePascalCase}}Query {
 

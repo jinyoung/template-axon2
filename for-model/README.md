@@ -1,3 +1,4 @@
+
 forEach: Model
 fileName: README.md
 path: for-model
@@ -28,7 +29,7 @@ cd ..
 
 <function>
 
-window.$HandleBars.registerHelper('ifEquals', function (jsonPath, value, options) {
+window.$HandleBars.registerHelper('ifEquals', function (arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 

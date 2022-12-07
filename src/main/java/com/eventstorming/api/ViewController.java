@@ -2,6 +2,7 @@
 
 
 
+
 forEach: View
 fileName: {{namePascalCase}}QueryController.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/api
